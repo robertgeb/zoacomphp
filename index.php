@@ -77,10 +77,10 @@
       $soma++;
       $resultado['palavras'] = $soma;
       $ch = curl_init();
-      // $timeout = 5;
+      $timeout = 5;
       curl_setopt($ch, CURLOPT_URL, "http://www.dicio.com.br/$palavra/");
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      // curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+      curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
       $data = curl_exec($ch);
       curl_close($ch);
       // $context = stream_context_create(array('http' => array('header'=>'Connection: close\r\n')));
@@ -140,7 +140,7 @@
       $result = lerFrase($conteudo);
       $output .= "<li>"
         .$conteudo
-        // ."<br><small>$link</small>"
+        ."<br><small>$link</small>"
         ."<br>Palavras: ".$result['palavras']
         ."<h4><br>Verbos: ".implode(",", $result['verbos'])
         ."<br>Substativos: ".implode(",", $result['substantivos'])
