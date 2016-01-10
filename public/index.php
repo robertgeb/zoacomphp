@@ -5,3 +5,4 @@
     $url = $_GET['url'];
 
     require_once (ROOT . DS . 'library' . DS . 'init.php');
+    require_once (ROOT . DS . 'library' . DS . 'router.php');
