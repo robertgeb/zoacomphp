@@ -2,11 +2,17 @@
     /**
      * Classe index
      */
-    class Index extends Model
+    class Index
     {
-        public $text;
-        function __construct(argument)
+        private $data = array();
+        function __construct()
         {
-            $this->text = "Hi, im Jim.";
+            $this->data["title"] = "Hi, im Jim.";
+            $this->data["content"] = "I'm a pseudo-robo by Robert";
+        }
+
+        public function getContent()
+        {
+            return $this->data;
         }
     }

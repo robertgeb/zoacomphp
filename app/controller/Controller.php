@@ -2,27 +2,20 @@
 class Controller {
 
     protected $_model;
-    protected $_controller;
     protected $_action;
-    protected $_template;
 
-    function __construct($model, $controller, $action) {
+    function __construct($model, $action) {
 
-        $this->_controller = $controller;
         $this->_action = $action;
         $this->_model = $model;
-
-        $this->$model =&amp; new $model;
-        $this->_template =&amp; new Template($controller,$action);
-
+        if (empty($this->_action) || !method_exists($this->_action)) {
+            return;
+        }else {
+            try {
+                $this->_action();
+            } catch (Exception $e) {
+                echo "Erro sinixtro" . $e;
+            }
+        }
     }
-
-    function set($name,$value) {
-        $this->_template->set($name,$value);
-    }
-
-    function __destruct() {
-            $this->_template->render();
-    }
-
 }

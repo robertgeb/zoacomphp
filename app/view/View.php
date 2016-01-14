@@ -2,36 +2,30 @@
 
 class View
 {
-    protected $_file;
+    protected $_template;
     protected $_data = array();
 
-    public function __construct($file)
+    public function __construct($model, $template)
     {
-        $this->_file = $file;
+        $this->_template = $template;
+        $this->_data = $model->getContent();
     }
 
-    public function set($key, $value)
+    public function render()
     {
-        $this->_data[$key] = $value;
+        $templatePath = ROOT . DS . "app" . DS . "template" . DS . $this->_template . ".php";
+        $title = $this->_data["title"];
+        $content = $this->_data["content"];
+        function compress_html($buffer)
+    	{
+            $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
+            $buffer = preg_replace('/<!--.*?-->/ms', '', $buffer);
+            $buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  '), '', $buffer);
+            return $buffer;
+    	}
+        ob_start("compress_html");
+        include ($templatePath);
+        ob_end_flush();
     }
 
-    public function get($key)
-    {
-        return $this->_data[$key];
-    }
-
-    public function output()
-    {
-        if (!file_exists($this->_file))
-        {
-            throw new Exception("Template " . $this->_file . " doesn't exist.");
-        }
-
-        extract($this->_data);
-        ob_start();
-        include($this->_file);
-        $output = ob_get_contents();
-        ob_end_clean();
-        echo $output;
-    }
 }
