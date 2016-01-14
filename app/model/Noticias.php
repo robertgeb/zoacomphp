@@ -1,6 +1,6 @@
 <?php
     /**
-     * Classe Crawler
+     * Classe Crawler de noticias
      */
     class Noticias
     {
@@ -8,9 +8,11 @@
         public $_manchetes = array();
         function __construct()
         {
-
         }
 
+        /*
+        *   Atualiza as manchetes
+        */
         public function sync()
         {
             foreach ($this->_alvos as $i => $alvo) {
@@ -45,18 +47,24 @@
             }
         }
 
-        public function getAllHeadlines($alvo = '')
+        /*
+        *   Retorna as manchetes
+        */
+        public function getHeadlines($alvo = '')
         {
-            if (empty($_manchetes)) {
+            if (empty($this->_manchetes) !== false) {
                 throw new Exception("Nada foi encontrado. Tente sincronizar(Noticias->sync)", 02);
                 return false;
-            }elseif (empty($alvo) && array_key_exists($alvo, $this->_alvos) === false) {
-                throw new Exception("Alvo não encontrado.", 03);
+            }elseif (empty($alvo) === false && array_key_exists(strtolower($alvo), $this->_alvos) === false) {
+                throw new Exception("Alvo inexistente.", 03);
                 return false;
             }elseif (empty($alvo) === false && array_key_exists($alvo), $this->_manchetes) === false {
                 throw new Exception("Sem manchetes para esse alvo. Tente sincronizar(Noticias->sync)", 04);
                 return false;
+            }elseif (empty($alvo) !== false) {
+                return array_values($this->_manchetes[$alvo]);
+            }else {
+                return $this->_manchetes;
             }
-            
         }
     }

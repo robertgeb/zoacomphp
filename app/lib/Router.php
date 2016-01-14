@@ -18,5 +18,7 @@
                 return @call_user_func_array($callback, array_values($params));
             }
         }
+        throw new Exception("Err404", 404);
+
     }
     }
