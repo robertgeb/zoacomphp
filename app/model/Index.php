@@ -7,8 +7,8 @@
         private $data = array();
         function __construct()
         {
-            $this->data["title"] = "Hi, im Jim.";
-            $this->data["content"] = "I'm a pseudo-robo by Robert";
+            $this->data["title"] = "Jim say:";
+            $this->data["content"] = "Hi, im Jim, a pseudo-robo.";
         }
 
         public function getContent()

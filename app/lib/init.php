@@ -46,8 +46,9 @@ function __autoload($className) {
         require_once(ROOT . DS . 'app' . DS . 'model' . DS . $className . '.php');
     } else if (file_exists(ROOT . DS . 'app' . DS . 'view' . DS . $className . '.php')) {
         require_once(ROOT . DS . 'app' . DS . 'view' . DS . $className . '.php');
-    } else {
-        /* Error Generation Code Here */
+    }else {
+        throw new Exception("Classe não encontrada", 10);
+
     }
 }
 

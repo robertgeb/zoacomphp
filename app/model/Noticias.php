@@ -6,8 +6,15 @@
     {
         public $_alvos = array('estadao' => 'estadao.com.br');
         public $_manchetes = array();
+        public $_data = array('title' => 'Noticias', 'content' => '');
         function __construct()
         {
+            if (empty($this->_manchetes)) {
+                $this->_data['content'] = "Notícias não sincronizadas.";
+            }else {
+                $this->_data['content'] = array_pop($this->_data);
+            }
+
         }
 
         /*
@@ -27,7 +34,7 @@
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
                 $html = curl_exec($ch);
                 if ($html === false) {
-                    throw new Exception(curl_error(), 01);
+                    throw new Exception(curl_error($ch), 01);
                     continue;
                 }
                 curl_close($ch);
@@ -40,13 +47,21 @@
                 $xpath = new DOMXPath($dom);
                 $elements = $xpath->query("//a[@href]/h2[@class='titulo']");
                 $this->_manchetes[$i] = array();
-                foreach ($elements as $i => $element) {
-                    $this->_manchetes[$i][] = $element->nodeValue;
+                foreach ($elements as $ii => $element) {
+                    $this->_manchetes[$i][$ii] = $element->nodeValue;
                 }
 
+                /*
+                *   Atualizando conteudo
+                */
+                $this->_data['content'] = $this->_manchetes['estadao'];
             }
+            return true;
         }
-
+        public function guardar()
+        {
+            $db = new Db();
+        }
         /*
         *   Retorna as manchetes
         */
@@ -58,7 +73,7 @@
             }elseif (empty($alvo) === false && array_key_exists(strtolower($alvo), $this->_alvos) === false) {
                 throw new Exception("Alvo inexistente.", 03);
                 return false;
-            }elseif (empty($alvo) === false && array_key_exists($alvo), $this->_manchetes) === false {
+            }elseif (empty($alvo) === false && array_key_exists(strtolower($alvo), $this->_manchetes) === false) {
                 throw new Exception("Sem manchetes para esse alvo. Tente sincronizar(Noticias->sync)", 04);
                 return false;
             }elseif (empty($alvo) !== false) {
@@ -66,5 +81,10 @@
             }else {
                 return $this->_manchetes;
             }
+        }
+
+        public function getContent()
+        {
+            return $this->_data;
         }
     }

@@ -8,26 +8,22 @@
 
     //  Criando as rotas dinamicamente
 
-    Router::route("/(\w+)/?(\w+)?/?(\w+)?", function($param0, $param1='', $param2)
+    Router::route("/(\w+)/?(\w+)?/?(\w+)?", function($param0, $param1 = '', $param2 = '')
     {
         $params = func_get_args();
-        $model = ucwords(strtolower($params[0]));
-        if ($params[0] == "index") {
-            $model = new Index();
-            $controller = new Controller($model, $param1);
-            $view = new View($model, "base");
-            $view->render();
-            return;
-        }
-        try {
-            $model = $model();
-        }catch (Throwable $t){
-            echo "Err404";
-        } catch (Exception $e) {
-            echo "Err404";
-            // echo $e->getMessage();
-        }
+        $modelName = ucwords(strtolower($params[0]));
 
+        try {
+            $model = new $modelName();
+            $controller = new Controller($model, $params[1]);
+            $controller->{$params[1]}();
+        }catch (Throwable $t){
+            // echo $t->getMessage();
+            // var_dump($params);
+        }
+        $view = new View($model, "base");
+        $view->render();
+        return;
     });
 
     try {

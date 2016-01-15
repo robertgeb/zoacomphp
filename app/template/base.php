@@ -15,17 +15,43 @@
         </style>
     </head>
     <body>
-        <div class="container">
-            <div class="row">
-                <!-- Titulo  -->
+        <div id="sidebar">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="http://localhost/~robert/robo/">
+                        Robot Jim
+                    </a>
+                </li>
+                <li>
+                    <a href="http://localhost/~robert/robo/">
+                        Home
+                    </a>
+                    <a href="noticias" class="dropdown">
+                        <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                          Notícias <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a href="http://localhost/~robert/robo/noticias/ultimas">Ultimas</a></li>
+                          <li><a href="http://localhost/~robert/robo/noticias/sincronizar">Sincronizar</a></li>
+                        </ul>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="content" style="display: none;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
 
-                <h1> <?php echo $title; ?> </h1>
+                        <!-- Titulo  -->
 
-                <!-- Conteudo -->
+                        <?php echo $output['title']; ?>
 
-                <p>
-                    <?php echo $content ?>
-                </p>
+                        <!-- Conteudo -->
+
+                        <?php echo $output['content']; ?>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- <script src="public/js/jquery.min.js"></script> -->

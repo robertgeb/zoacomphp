@@ -8,14 +8,20 @@ class Controller {
 
         $this->_action = $action;
         $this->_model = $model;
-        if (empty($this->_action) || !method_exists($this->_action)) {
-            return;
-        }else {
-            try {
-                $this->_action();
-            } catch (Exception $e) {
-                echo "Erro sinixtro" . $e;
-            }
+        if (empty($this->_action) || !method_exists($this, strtolower($this->_action))) {
+            throw new Exception("Parametros não compreendidos", 07);
+            return false;
         }
+        return true;
+    }
+
+    public function ultimas($alvo = '')
+    {
+        try {
+            $this->_model->sync();
+        } catch (Throwable $t) {
+            return $t;
+        }
+
     }
 }
